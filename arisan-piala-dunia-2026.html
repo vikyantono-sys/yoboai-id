@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arisan Piala Dunia 2026 · YOBO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0a1a12;
+    --pitch-2:#0f2519;
+    --panel:#12301f;
+    --line:rgba(220,235,210,.07);
+    --chalk:#eef3ea;
+    --muted:#8aa593;
+    --gold:#f2c94c;
+    --flame:#ff6a3d;
+    --amber:#ffb020;
+    --p1:#f2c94c;
+    --p2:#56cc8e;
+    --p3:#6ba4f0;
+    --p4:#e879a6;
+    --display:"Anton","Arial Narrow",system-ui,sans-serif;
+    --body:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:var(--body);
+    color:var(--chalk);
+    background:
+      radial-gradient(900px 520px at 50% -8%, rgba(242,201,76,.06), transparent 60%),
+      repeating-linear-gradient(90deg, transparent 0 54px, var(--line) 54px 55px),
+      linear-gradient(180deg,#0c1f15,#081109 70%);
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 20px 64px}
+
+  /* header */
+  header{position:relative;padding:8px 0 22px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.01em;
+     font-size:clamp(38px,8.5vw,84px);line-height:.92;margin:0;color:var(--chalk);
+     text-shadow:0 2px 0 rgba(0,0,0,.35)}
+  h1 .yr{color:var(--gold)}
+  .sub{color:var(--muted);max-width:60ch;margin:14px 0 0;font-size:15px}
+
+  /* control panel */
+  .panel{background:linear-gradient(180deg,var(--pitch-2),var(--pitch));border:1px solid var(--line);
+         border-radius:16px;padding:20px;margin:22px 0}
+  .ctrl-row{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center}
+  .seg{display:inline-flex;background:#0a1810;border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+  .seg button{font-family:var(--body);font-weight:600;font-size:14px;color:var(--muted);background:transparent;
+    border:0;padding:9px 16px;border-radius:8px;cursor:pointer;transition:.18s}
+  .seg button[aria-pressed="true"]{background:linear-gradient(180deg,#1c3a26,#16301f);color:var(--gold);
+    box-shadow:0 0 0 1px rgba(242,201,76,.35) inset}
+  .seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .kocok{font-family:var(--display);font-weight:400;letter-spacing:.05em;text-transform:uppercase;
+    font-size:22px;color:#1a0d04;background:linear-gradient(180deg,var(--amber),var(--flame));
+    border:0;border-radius:12px;padding:14px 34px;cursor:pointer;
+    box-shadow:0 8px 22px -8px rgba(255,106,61,.6);transition:transform .12s, box-shadow .12s, filter .12s;
+    margin-left:auto}
+  .kocok:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(255,106,61,.7)}
+  .kocok:active{transform:translateY(0)}
+  .kocok:disabled{filter:saturate(.5) brightness(.9);cursor:default;transform:none;box-shadow:none}
+  .kocok:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+  .explain{color:var(--muted);font-size:13.5px;margin:14px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
+  .explain b{color:var(--chalk);font-weight:600}
+
+  .warn{margin:14px 0 0;padding:10px 14px;border-radius:10px;font-size:13.5px;display:none;
+    background:rgba(255,106,61,.1);border:1px solid rgba(255,106,61,.4);color:#ffd0bf}
+  .warn.show{display:block}
+
+  /* shuffle marquee */
+  .reel{display:none;position:relative;height:96px;margin:8px 0 4px;border-radius:14px;overflow:hidden;
+    background:#081109;border:1px solid var(--line)}
+  .reel.run{display:block}
+  .reel-strip{display:flex;gap:8px;align-items:center;height:100%;padding:0 8px;width:max-content;
+    font-size:40px;filter:blur(.4px);animation:slide 1.1s linear infinite}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .reel-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.2em;font-size:26px;color:var(--gold);
+    background:radial-gradient(120px 60px at 50% 50%, rgba(8,17,9,.55), rgba(8,17,9,.92))}
+
+  /* results */
+  .meta{display:none;flex-wrap:wrap;gap:8px 18px;align-items:center;color:var(--muted);font-size:13px;
+    margin:26px 0 14px}
+  .meta.show{display:flex}
+  .meta .tag{color:var(--chalk);font-weight:600}
+  .meta .dot{width:5px;height:5px;border-radius:50%;background:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+  .card{background:linear-gradient(180deg,#11291b,#0d2015);border:1px solid var(--line);border-radius:14px;
+    padding:14px 14px 12px;opacity:0;transform:translateY(12px)}
+  .card.show{opacity:1;transform:none;transition:opacity .42s ease, transform .42s ease}
+  .card-top{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+  .num{font-family:var(--display);font-size:22px;color:#0c1d12;background:var(--gold);width:34px;height:34px;
+    border-radius:8px;display:grid;place-items:center;flex:none;line-height:1}
+  .pname{font-weight:700;font-size:16px;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .team{display:flex;align-items:center;gap:10px;padding:7px 0}
+  .team + .team{border-top:1px solid var(--line)}
+  .flag{font-size:26px;line-height:1;flex:none;width:30px;text-align:center}
+  .tn{font-weight:600;font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pot{font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:999px;flex:none;
+    display:inline-flex;align-items:center;gap:5px;color:#08120b}
+  .pot::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(8,18,11,.55)}
+  .pot--1{background:var(--p1)} .pot--2{background:var(--p2)} .pot--3{background:var(--p3)} .pot--4{background:var(--p4)}
+
+  /* actions */
+  .actions{display:none;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .actions.show{display:flex}
+  .btn{font-family:var(--body);font-weight:600;font-size:14px;color:var(--chalk);background:#13301f;
+    border:1px solid var(--line);border-radius:10px;padding:11px 18px;cursor:pointer;transition:.15s}
+  .btn:hover{background:#184026;border-color:rgba(242,201,76,.3)}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .btn.primary{background:linear-gradient(180deg,#1c3a26,#16301f);color:var(--gold)}
+
+  /* settings */
+  details{margin-top:30px;border:1px solid var(--line);border-radius:14px;background:rgba(8,17,9,.45);overflow:hidden}
+  summary{cursor:pointer;padding:16px 18px;font-weight:600;font-size:14.5px;list-style:none;color:var(--chalk)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"▾";float:right;color:var(--muted);transition:.2s}
+  details[open] summary::after{transform:rotate(180deg)}
+  .settings-body{padding:0 18px 20px;border-top:1px solid var(--line)}
+  .field-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600;
+    margin:18px 0 8px}
+  textarea{width:100%;min-height:150px;resize:vertical;background:#0a1810;color:var(--chalk);
+    border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--body);font-size:14px;line-height:1.7}
+  textarea:focus-visible{outline:2px solid var(--gold);outline-offset:0}
+  .hint{color:var(--muted);font-size:12.5px;margin:8px 0 0}
+  .pot-ref{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:10px}
+  .pot-col{background:#0c1d13;border:1px solid var(--line);border-radius:10px;padding:12px}
+  .pot-col h4{margin:0 0 9px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    display:flex;align-items:center;gap:7px}
+  .pot-col h4::before{content:"";width:9px;height:9px;border-radius:3px}
+  .pot-col.c1 h4::before{background:var(--p1)} .pot-col.c2 h4::before{background:var(--p2)}
+  .pot-col.c3 h4::before{background:var(--p3)} .pot-col.c4 h4::before{background:var(--p4)}
+  .pot-col ul{margin:0;padding:0;list-style:none;font-size:13.5px;color:var(--muted)}
+  .pot-col li{padding:3px 0;display:flex;gap:8px;align-items:center}
+
+  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:34px;line-height:1.6}
+
+  @media (max-width:560px){
+    .kocok{margin-left:0;width:100%}
+    .ctrl-row{flex-direction:column;align-items:stretch}
+    .seg{justify-content:center}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;transition:none!important}
+    .card{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">YOBO · Piala Dunia 2026</p>
+    <h1>Arisan Piala&nbsp;Dunia <span class="yr">'26</span></h1>
+    <p class="sub">48 tim · 24 orang · 2 tim tiap orang. Kocok sekali dan semua kebagian — nggak ada yang dapet tim gurem semua. Tier mengikuti pot resmi undian FIFA.</p>
+  </header>
+
+  <section class="panel">
+    <div class="ctrl-row">
+      <div class="seg" role="group" aria-label="Metode pembagian">
+        <button id="m-2pot" aria-pressed="true">2 Pot</button>
+        <button id="m-4pot" aria-pressed="false">4 Pot Berpasangan</button>
+      </div>
+      <button class="kocok" id="kocok">Kocok Sekarang</button>
+    </div>
+    <p class="explain" id="explain"></p>
+    <div class="warn" id="warn"></div>
+
+    <div class="reel" id="reel" aria-hidden="true">
+      <div class="reel-strip" id="reelStrip"></div>
+      <div class="reel-label">Mengocok…</div>
+    </div>
+  </section>
+
+  <div class="meta" id="meta"></div>
+  <div class="grid" id="grid"></div>
+
+  <div class="actions" id="actions">
+    <button class="btn primary" id="copy">Salin buat Slack</button>
+    <button class="btn" id="redraw">Acak Ulang</button>
+  </div>
+
+  <details>
+    <summary>Atur peserta &amp; lihat isi pot</summary>
+    <div class="settings-body">
+      <p class="field-label">Peserta — 1 nama per baris</p>
+      <textarea id="people" spellcheck="false"></textarea>
+      <p class="hint">Idealnya 24 baris (48 tim ÷ 2). Edit di sini, terus tekan Kocok lagi. Tiff &amp; Bibi ambil 2 slot, jadi ada baris "(2)".</p>
+
+      <p class="field-label" style="margin-top:22px">Isi pot — resmi undian FIFA (ranking Nov 2025)</p>
+      <div class="pot-ref" id="potRef"></div>
+    </div>
+  </details>
+
+  <footer>
+    Pembagian acak pakai shuffle Fisher–Yates. Hasil tiap orang = campuran lintas-pot, jadi total kekuatan relatif merata.<br>Screenshot hasilnya buat dibagiin ke grup ya.
+  </footer>
+
+</div>
+
+<script>
+const POTS = [
+  [ // Pot 1
+    {n:"Meksiko",f:"🇲🇽",p:1},{n:"Kanada",f:"🇨🇦",p:1},{n:"Amerika Serikat",f:"🇺🇸",p:1},
+    {n:"Brasil",f:"🇧🇷",p:1},{n:"Argentina",f:"🇦🇷",p:1},{n:"Prancis",f:"🇫🇷",p:1},
+    {n:"Inggris",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:1},{n:"Spanyol",f:"🇪🇸",p:1},{n:"Portugal",f:"🇵🇹",p:1},
+    {n:"Belanda",f:"🇳🇱",p:1},{n:"Belgia",f:"🇧🇪",p:1},{n:"Jerman",f:"🇩🇪",p:1}
+  ],
+  [ // Pot 2
+    {n:"Kroasia",f:"🇭🇷",p:2},{n:"Maroko",f:"🇲🇦",p:2},{n:"Kolombia",f:"🇨🇴",p:2},
+    {n:"Uruguay",f:"🇺🇾",p:2},{n:"Swiss",f:"🇨🇭",p:2},{n:"Jepang",f:"🇯🇵",p:2},
+    {n:"Senegal",f:"🇸🇳",p:2},{n:"Iran",f:"🇮🇷",p:2},{n:"Korea Selatan",f:"🇰🇷",p:2},
+    {n:"Australia",f:"🇦🇺",p:2},{n:"Ekuador",f:"🇪🇨",p:2},{n:"Austria",f:"🇦🇹",p:2}
+  ],
+  [ // Pot 3
+    {n:"Norwegia",f:"🇳🇴",p:3},{n:"Panama",f:"🇵🇦",p:3},{n:"Mesir",f:"🇪🇬",p:3},
+    {n:"Aljazair",f:"🇩🇿",p:3},{n:"Skotlandia",f:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",p:3},{n:"Paraguay",f:"🇵🇾",p:3},
+    {n:"Tunisia",f:"🇹🇳",p:3},{n:"Pantai Gading",f:"🇨🇮",p:3},{n:"Arab Saudi",f:"🇸🇦",p:3},
+    {n:"Qatar",f:"🇶🇦",p:3},{n:"Afrika Selatan",f:"🇿🇦",p:3},{n:"Uzbekistan",f:"🇺🇿",p:3}
+  ],
+  [ // Pot 4
+    {n:"Yordania",f:"🇯🇴",p:4},{n:"Tanjung Verde",f:"🇨🇻",p:4},{n:"Ghana",f:"🇬🇭",p:4},
+    {n:"Curaçao",f:"🇨🇼",p:4},{n:"Haiti",f:"🇭🇹",p:4},{n:"Selandia Baru",f:"🇳🇿",p:4},
+    {n:"Swedia",f:"🇸🇪",p:4},{n:"Turki",f:"🇹🇷",p:4},{n:"Rep. Ceko",f:"🇨🇿",p:4},
+    {n:"Bosnia",f:"🇧🇦",p:4},{n:"Irak",f:"🇮🇶",p:4},{n:"Kongo DR",f:"🇨🇩",p:4}
+  ]
+];
+
+const DEFAULT_PEOPLE = ["Viky","Bambang","Yoel","Bibi","Dieki","Meta","Mawar","Tiff","Wina",
+  "Anneke","Andrew","Anindita","Fanny","Garda","Gilbert","Monica","Rama","Derryl","Harry",
+  "Natasha","Dzenata","Fara","Tiff (2)","Bibi (2)"];
+
+const EXPLAIN = {
+  "2pot":"<b>2 Pot.</b> Tiap orang dapat 1 tim papan atas (Pot 1–2) + 1 underdog (Pot 3–4). Paling simpel, semua punya jagoan dan nggak ada yang dapet 2 tim gurem.",
+  "4pot":"<b>4 Pot Berpasangan.</b> 12 orang dapat Pot 1 + Pot 4, 12 orang lagi dapat Pot 2 + Pot 3 (siapa masuk grup mana, ikut dikocok). Total kekuatan paling seimbang."
+};
+
+let method = "2pot";
+
+// --- random helpers ---
+function rngInt(max){
+  if(window.crypto && crypto.getRandomValues){
+    const a=new Uint32Array(1); crypto.getRandomValues(a);
+    return a[0] % max;
+  }
+  return Math.floor(Math.random()*max);
+}
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=rngInt(i+1);[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+// --- elements ---
+const el = id => document.getElementById(id);
+const peopleBox = el("people");
+const warnBox = el("warn");
+const grid = el("grid");
+const meta = el("meta");
+const actions = el("actions");
+const reel = el("reel");
+const kocokBtn = el("kocok");
+
+let lastResult = null;
+
+// --- init UI ---
+peopleBox.value = DEFAULT_PEOPLE.join("\n");
+el("explain").innerHTML = EXPLAIN[method];
+buildReelStrip();
+buildPotRef();
+
+el("m-2pot").addEventListener("click",()=>setMethod("2pot"));
+el("m-4pot").addEventListener("click",()=>setMethod("4pot"));
+kocokBtn.addEventListener("click",run);
+el("redraw").addEventListener("click",run);
+el("copy").addEventListener("click",copyForSlack);
+
+function setMethod(m){
+  method=m;
+  el("m-2pot").setAttribute("aria-pressed", m==="2pot");
+  el("m-4pot").setAttribute("aria-pressed", m==="4pot");
+  el("explain").innerHTML = EXPLAIN[m];
+}
+
+function getPeople(){
+  return peopleBox.value.split("\n").map(s=>s.trim()).filter(Boolean);
+}
+
+function validate(people){
+  const n=people.length;
+  if(method==="2pot"){
+    if(n>24) return "Maksimal 24 orang buat metode 2 Pot (cuma ada 24 tim di tiap separuh). Sekarang ada "+n+".";
+  } else {
+    if(n%2!==0) return "Metode 4 Pot butuh jumlah orang genap. Sekarang ada "+n+".";
+    if(n/2>12) return "Maksimal 24 orang buat metode 4 Pot (tiap pot cuma 12 tim). Sekarang ada "+n+".";
+  }
+  if(n===0) return "Belum ada peserta. Isi dulu di bagian \u201cAtur peserta\u201d.";
+  return null;
+}
+
+function computeDraw(people){
+  const n=people.length;
+  const teams=new Array(n);
+  if(method==="2pot"){
+    const strong=shuffle([...POTS[0],...POTS[1]]);
+    const weak=shuffle([...POTS[2],...POTS[3]]);
+    for(let i=0;i<n;i++) teams[i]=[strong[i],weak[i]];
+  } else {
+    const half=n/2;
+    const idx=shuffle(people.map((_,i)=>i));
+    const grpA=idx.slice(0,half), grpB=idx.slice(half);
+    const p1=shuffle(POTS[0]),p2=shuffle(POTS[1]),p3=shuffle(POTS[2]),p4=shuffle(POTS[3]);
+    grpA.forEach((orig,k)=> teams[orig]=[p1[k],p4[k]]);
+    grpB.forEach((orig,k)=> teams[orig]=[p2[k],p3[k]]);
+  }
+  // sort each pair so the stronger pot shows first
+  return people.map((person,i)=>({
+    person,
+    teams: teams[i].slice().sort((a,b)=>a.p-b.p)
+  }));
+}
+
+function run(){
+  const people=getPeople();
+  const err=validate(people);
+  if(err){ warnBox.textContent=err; warnBox.classList.add("show"); return; }
+  warnBox.classList.remove("show");
+
+  lastResult=computeDraw(people);
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){ render(lastResult); return; }
+
+  // kocok animation, then reveal
+  kocokBtn.disabled=true;
+  const orig=kocokBtn.textContent;
+  kocokBtn.textContent="Mengocok…";
+  reel.classList.add("run");
+  grid.innerHTML=""; meta.classList.remove("show"); actions.classList.remove("show");
+  setTimeout(()=>{
+    reel.classList.remove("run");
+    kocokBtn.disabled=false;
+    kocokBtn.textContent=orig;
+    render(lastResult);
+  },1150);
+}
+
+function render(result){
+  const labelMethod = method==="2pot" ? "2 Pot" : "4 Pot Berpasangan";
+  const ts = new Date().toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});
+  meta.innerHTML = '<span class="tag">'+result.length+' orang</span><span class="dot"></span>'+
+                   '<span>Metode '+labelMethod+'</span><span class="dot"></span>'+
+                   '<span>Dikocok '+ts+'</span>';
+  meta.classList.add("show");
+
+  grid.innerHTML="";
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  result.forEach((r,i)=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML =
+      '<div class="card-top"><div class="num">'+(i+1)+'</div>'+
+      '<div class="pname">'+escapeHtml(r.person)+'</div></div>'+
+      r.teams.map(t=>
+        '<div class="team"><span class="flag">'+t.f+'</span>'+
+        '<span class="tn">'+t.n+'</span>'+
+        '<span class="pot pot--'+t.p+'">Pot '+t.p+'</span></div>'
+      ).join("");
+    grid.appendChild(card);
+    if(reduce){ card.classList.add("show"); }
+    else { setTimeout(()=>card.classList.add("show"), i*35); }
+  });
+  actions.classList.add("show");
+}
+
+function copyForSlack(){
+  if(!lastResult) return;
+  const labelMethod = method==="2pot" ? "2 Pot (1 tim papan atas + 1 underdog)" : "4 Pot berpasangan";
+  const ts = new Date().toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});
+  let txt = ":trophy: *Arisan Piala Dunia 2026 — YOBO*\nDikocok: "+ts+"\n\n";
+  lastResult.forEach((r,i)=>{
+    txt += (i+1)+". "+r.person+" — "+r.teams.map(t=>t.f+" "+t.n).join("  +  ")+"\n";
+  });
+  txt += "\nMetode: "+labelMethod;
+
+  const btn=el("copy"); const done=()=>{ btn.textContent="Tersalin ✓"; setTimeout(()=>btn.textContent="Salin buat Slack",1600); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  } else { fallbackCopy(txt,done); }
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement("textarea"); ta.value=txt;
+  ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand("copy"); done(); }
+  catch(e){ window.prompt("Copy manual hasilnya:", txt); }
+  document.body.removeChild(ta);
+}
+
+function buildReelStrip(){
+  const all=[...POTS[0],...POTS[1],...POTS[2],...POTS[3]];
+  const flags=shuffle(all).map(t=>t.f);
+  el("reelStrip").textContent = flags.concat(flags).join("  ");
+}
+function buildPotRef(){
+  const titles=["Pot 1 · Unggulan","Pot 2","Pot 3","Pot 4 · Underdog"];
+  el("potRef").innerHTML = POTS.map((pot,pi)=>
+    '<div class="pot-col c'+(pi+1)+'"><h4>'+titles[pi]+'</h4><ul>'+
+    pot.map(t=>'<li><span style="font-size:18px">'+t.f+'</span>'+t.n+'</li>').join("")+
+    '</ul></div>'
+  ).join("");
+}
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+</script>
+</body>
+</html>
