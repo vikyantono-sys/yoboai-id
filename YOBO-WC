@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arisan · Piala Dunia 2026 — YoboLabs</title>
+<meta name="description" content="Hasil, klasemen, top skor & arisan kantor YoboLabs untuk Piala Dunia 2026. Semua waktu WIB.">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===== YoboLabs brand tokens ===== */
+  :root{
+    --green:#6FED45;            /* exact brand green — never tinted */
+    --black:#000000;            /* pure black, no off-black */
+    --white:#FFFFFF;
+    --ink-2:#C8C8CE;            /* secondary text on black */
+    --ink-3:#85858E;            /* metadata / captions (brand graphite family) */
+    --panel:rgba(255,255,255,0.035);
+    --panel-2:rgba(255,255,255,0.06);
+    --line:rgba(255,255,255,0.08);
+    --line-2:rgba(255,255,255,0.14);
+    --win:var(--green);
+    --font:'Satoshi','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:var(--font);
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    padding-bottom:64px;
+  }
+  a{color:inherit}
+  ::selection{background:var(--green);color:var(--black)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* ===== Masthead ===== */
+  .masthead{
+    border-bottom:1px solid var(--line);
+    padding:22px 0 18px;
+    position:relative;
+  }
+  .masthead::after{ /* green hairline accent */
+    content:"";position:absolute;left:0;bottom:-1px;height:1px;width:120px;background:var(--green);
+  }
+  .masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .brandblock{display:flex;align-items:center;gap:16px;min-width:0}
+  svg.logo{height:30px;width:auto;display:block;flex:none}
+  .titles{min-width:0}
+  .eyebrow{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);
+    font-weight:700;margin:0 0 2px;
+  }
+  .title{
+    font-size:21px;font-weight:900;letter-spacing:-.01em;margin:0;line-height:1.05;
+  }
+  .title .yr{color:var(--green)}
+  .status{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);
+    font-family:var(--mono);font-weight:500;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(111,237,69,.6);}
+  .dot.live{animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(111,237,69,.5)}70%{box-shadow:0 0 0 7px rgba(111,237,69,0)}100%{box-shadow:0 0 0 0 rgba(111,237,69,0)}}
+  .refresh{
+    appearance:none;border:1px solid var(--line-2);background:transparent;color:var(--white);
+    font-family:var(--mono);font-size:12px;font-weight:500;padding:7px 12px;border-radius:8px;cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .refresh:hover{border-color:var(--green)}
+  .refresh:active{background:var(--panel-2)}
+  .refresh[disabled]{opacity:.5;cursor:default}
+
+  /* ===== Tabs ===== */
+  nav.tabs{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);}
+  .tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .tabs .wrap::-webkit-scrollbar{display:none}
+  .tab{
+    appearance:none;background:none;border:none;color:var(--ink-3);cursor:pointer;
+    font-family:var(--font);font-weight:700;font-size:14px;letter-spacing:.01em;
+    padding:15px 14px 13px;border-bottom:2px solid transparent;white-space:nowrap;
+    transition:color .15s;
+  }
+  .tab:hover{color:var(--ink-2)}
+  .tab[aria-selected="true"]{color:var(--white);border-bottom-color:var(--green)}
+
+  main{padding-top:26px}
+  section[data-tab]{animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  [hidden]{display:none!important}
+
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+  .sec-title{font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin:0}
+  .sec-note{font-size:12px;color:var(--ink-3);font-family:var(--mono)}
+
+  /* ===== Filters ===== */
+  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden}
+  .seg button{
+    appearance:none;background:none;border:none;color:var(--ink-2);cursor:pointer;
+    font-family:var(--font);font-weight:700;font-size:13px;padding:8px 14px;transition:.15s;
+  }
+  .seg button[aria-pressed="true"]{background:var(--green);color:var(--black)}
+  select,input.search{
+    appearance:none;background:var(--panel);border:1px solid var(--line-2);color:var(--white);
+    font-family:var(--font);font-size:13px;font-weight:600;padding:8px 12px;border-radius:9px;
+  }
+  select:focus,input.search:focus{outline:none;border-color:var(--green)}
+  input.search{min-width:200px;flex:1}
+  input.search::placeholder{color:var(--ink-3)}
+
+  /* ===== Matchday + match cards ===== */
+  .daygroup{margin-bottom:26px}
+  .dayhead{
+    display:flex;align-items:center;gap:12px;margin:0 0 10px;
+    font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--ink-2);text-transform:capitalize;
+  }
+  .dayhead .rule{height:1px;flex:1;background:var(--line)}
+  .dayhead .count{font-family:var(--mono);color:var(--ink-3);font-weight:500;letter-spacing:0}
+
+  .match{
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;
+    border:1px solid var(--line);border-radius:14px;background:var(--panel);
+    padding:14px 16px;margin-bottom:10px;transition:border-color .15s,background .15s;
+  }
+  .match:hover{border-color:var(--line-2);background:var(--panel-2)}
+  .side{display:flex;align-items:center;gap:11px;min-width:0}
+  .side.away{flex-direction:row-reverse;text-align:right}
+  .flag{width:28px;height:21px;border-radius:3px;object-fit:cover;flex:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,.12);background:#222}
+  .flag--none{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);
+    font-size:10px;font-weight:700;color:var(--ink-2)}
+  .team{min-width:0}
+  .team .name{font-weight:700;font-size:15px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .name.win{color:var(--win)}
+  .owner{display:inline-block;margin-top:3px;font-size:11px;font-family:var(--mono);color:var(--ink-3);
+    font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .owner::before{content:"◦ ";color:var(--green)}
+  .owner.none{display:none}
+
+  .center{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:78px}
+  .score{font-family:var(--mono);font-weight:800;font-size:24px;letter-spacing:.02em;line-height:1}
+  .score .dash{color:var(--ink-3);margin:0 5px;font-weight:500}
+  .vs{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-weight:500}
+  .ko{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--white)}
+  .ko small{display:block;font-size:9px;color:var(--ink-3);letter-spacing:.12em;font-weight:500;margin-top:1px}
+  .meta{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  .meta.ft{color:var(--green)}
+
+  .venue{grid-column:1/-1;margin-top:9px;padding-top:9px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--ink-3);font-family:var(--mono);font-weight:500;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+  /* ===== Standings ===== */
+  .groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .grouptable{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .grouptable h3{margin:0;padding:11px 14px;font-size:12px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--line);background:var(--panel-2)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;
+    text-align:center;padding:8px 4px;border-bottom:1px solid var(--line)}
+  thead th.tname{text-align:left;padding-left:14px}
+  tbody td{padding:9px 4px;text-align:center;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  tbody tr:last-child td{border-bottom:none}
+  td.tname{text-align:left;padding-left:14px}
+  .trow-team{display:flex;align-items:center;gap:9px;min-width:0}
+  .trow-team .flag{width:22px;height:16px}
+  .trow-team .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow-team .ow{font-size:10px;color:var(--ink-3);font-family:var(--mono);font-weight:500;display:block;line-height:1.1}
+  .pos{font-family:var(--mono);color:var(--ink-3);font-weight:700;width:26px}
+  td.pts{font-family:var(--mono);font-weight:800;color:var(--white)}
+  tr.adv{position:relative}
+  tr.adv td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+  tr.adv .pos{color:var(--green)}
+  .legend{font-size:11px;color:var(--ink-3);font-family:var(--mono);margin-top:14px;display:flex;align-items:center;gap:8px}
+  .legend i{width:3px;height:14px;background:var(--green);display:inline-block;border-radius:2px}
+
+  /* ===== Scorers ===== */
+  .scorer{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:12px;
+    padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:8px}
+  .scorer .rk{font-family:var(--mono);font-weight:800;font-size:15px;color:var(--ink-3);text-align:center}
+  .scorer.top1 .rk,.scorer.top2 .rk,.scorer.top3 .rk{color:var(--green)}
+  .scorer .who{min-width:0}
+  .scorer .pl{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scorer .tm{font-size:11px;color:var(--ink-3);font-family:var(--mono);display:flex;align-items:center;gap:7px;margin-top:2px}
+  .scorer .tm .flag{width:18px;height:13px}
+  .goals{display:flex;align-items:center;gap:10px}
+  .bar{width:120px;height:7px;border-radius:4px;background:var(--line);overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--green);border-radius:4px}
+  .gnum{font-family:var(--mono);font-weight:800;font-size:16px;min-width:22px;text-align:right}
+  @media(max-width:560px){.bar{width:64px}}
+
+  /* ===== Arisan leaderboard ===== */
+  .arisan{display:flex;flex-direction:column;gap:10px}
+  .acard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px 16px;
+    display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center}
+  .acard.lead{border-color:var(--green)}
+  .acard .rank{font-family:var(--mono);font-weight:800;font-size:20px;text-align:center;color:var(--ink-3)}
+  .acard.lead .rank,.acard.podium .rank{color:var(--green)}
+  .aowner{min-width:0}
+  .aowner .onm{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ateams{display:flex;gap:14px;margin-top:5px;flex-wrap:wrap}
+  .ateam{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-2);font-weight:600}
+  .ateam .flag{width:20px;height:15px}
+  .ateam.out{opacity:.45;text-decoration:line-through}
+  .astat{display:flex;gap:18px;text-align:right}
+  .astat .blk{display:flex;flex-direction:column;align-items:flex-end}
+  .astat .v{font-family:var(--mono);font-weight:800;font-size:18px;line-height:1}
+  .astat .v.pts{color:var(--green)}
+  .astat .k{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-top:3px}
+  @media(max-width:560px){.astat{gap:12px}.astat .alivecol{display:none}}
+
+  /* ===== Stats ===== */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+  .kpi{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
+  .kpi .v{font-family:var(--mono);font-weight:800;font-size:30px;line-height:1;letter-spacing:-.01em}
+  .kpi .v.g{color:var(--green)}
+  .kpi .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-top:8px}
+  .statcols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .statbox{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}
+  .statbox h4{margin:0 0 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:800}
+  .srow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .srow:last-child{border-bottom:none}
+  .srow .flag{width:20px;height:15px}
+  .srow .nm{font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .srow .val{font-family:var(--mono);font-weight:800}
+  .bigmatch{font-size:14px;font-weight:700;line-height:1.4}
+  .bigmatch .sc{font-family:var(--mono);color:var(--green)}
+  .bigmatch .sub{font-size:11px;color:var(--ink-3);font-family:var(--mono);font-weight:500;margin-top:4px}
+
+  /* ===== States ===== */
+  .state{text-align:center;padding:70px 20px;color:var(--ink-3)}
+  .state .spin{width:26px;height:26px;border:2px solid var(--line-2);border-top-color:var(--green);
+    border-radius:50%;margin:0 auto 16px;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .state h3{color:var(--white);font-size:16px;margin:0 0 8px}
+  .state p{margin:0 auto;max-width:460px;font-size:13px;line-height:1.6}
+  .state code{font-family:var(--mono);color:var(--green);font-size:12px}
+  .empty{padding:40px 16px;text-align:center;color:var(--ink-3);font-size:13px;
+    border:1px dashed var(--line-2);border-radius:14px}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0;color:var(--ink-3);font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+  footer .mono{font-family:var(--mono)}
+
+  @media(max-width:720px){
+    .groups{grid-template-columns:1fr}
+    .statcols{grid-template-columns:1fr}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .title{font-size:19px}
+    .match{padding:13px 13px}
+    .team .name{font-size:14px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandblock">
+      <!-- Official YoboLabs mark (no-box dark variant) — inlined verbatim, not redrawn -->
+      <svg class="logo" viewBox="0 0 1714.285714285714 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YoboLabs">
+        <g fill="#6FED45">
+          <path d="M45.02042,175.69728c0,-19.40525 15.73107,-35.13632 35.13632,-35.13632c19.40525,0 35.13632,15.73107 35.13632,35.13632c0,19.40525 -15.73107,35.13632 -35.13632,35.13632c-19.40525,0 -35.13632,-15.73107 -35.13632,-35.13632z"></path>
+          <path d="M52.43943,346.41447c-1.7598,0 -3.3715,-0.98514 -4.17399,-2.55132c-0.80248,-1.56618 -0.66068,-3.44979 0.36725,-4.87817l141.39072,-196.47351c0.8813,-1.22464 2.29795,-1.95051 3.80674,-1.95051h49.69023c1.7598,0 3.3715,0.98514 4.17399,2.55132c0.80248,1.56618 0.66068,3.44979 -0.36725,4.87817l-141.39072,196.47351c-0.8813,1.22464 -2.29795,1.95051 -3.80674,1.95051z"></path>
+          <path d="M219.19459,275.79146c-1.11427,-1.84273 -3.1049,-2.97529 -5.25826,-2.99169c-2.15336,-0.01639 -4.161,1.08574 -5.3032,2.91129l-38.30044,61.21486c-1.19575,1.91114 -1.25989,4.32074 -0.16751,6.29279c1.09238,1.97205 3.16912,3.19575 5.42351,3.19575h75.31621c2.2375,0 4.30142,-1.20558 5.40048,-3.15455c1.09906,-1.94896 1.06275,-4.33892 -0.09503,-6.25359z"></path>
+        </g>
+        <g fill="#FFFFFF">
+          <path transform="matrix(4.027863 0 0 4.027863 684.335304 239.007412) matrix(1 0 0 1 -69.772658 0.755865)  translate(-4260.22019, -5934.82672)" d="M 4265.27 5960.03 L 4255.21 5960.03 L 4255.21 5944.25 C 4252.98 5943.69 4250.94 5942.78 4249.08 5941.54 C 4247.21 5940.30 4245.61 5938.82 4244.28 5937.09 C 4242.94 5935.37 4241.90 5933.46 4241.17 5931.36 C 4240.43 5929.27 4240.06 5927.06 4240.06 5924.74 L 4240.06 5909.62 L 4250.15 5909.62 L 4250.15 5924.74 C 4250.15 5926.12 4250.41 5927.43 4250.94 5928.66 C 4251.47 5929.89 4252.19 5930.96 4253.10 5931.87 C 4254.02 5932.79 4255.09 5933.51 4256.32 5934.04 C 4257.55 5934.56 4258.85 5934.83 4260.24 5934.83 C 4261.62 5934.83 4262.93 5934.56 4264.16 5934.04 C 4265.39 5933.51 4266.46 5932.79 4267.37 5931.87 C 4268.29 5930.96 4269.01 5929.89 4269.54 5928.66 C 4270.06 5927.43 4270.33 5926.12 4270.33 5924.74 L 4270.33 5909.62 L 4280.38 5909.62 L 4280.38 5924.74 C 4280.38 5927.06 4280.01 5929.27 4279.27 5931.36 C 4278.54 5933.46 4277.50 5935.37 4276.16 5937.09 C 4274.83 5938.82 4273.23 5940.30 4271.38 5941.54 C 4269.53 5942.78 4267.49 5943.69 4265.27 5944.25 z"></path>
+          <path transform="matrix(4.027863 0 0 4.027863 684.335304 239.007412) matrix(1 0 0 1 -24.133019 6.76758)  translate(-4301.93308, -5940.838435)" d="M 4321.16 5940.87 C 4321.16 5943.69 4320.66 5946.31 4319.65 5948.73 C 4318.64 5951.16 4317.27 5953.25 4315.54 5955.02 C 4313.80 5956.79 4311.77 5958.19 4309.44 5959.21 C 4307.11 5960.23 4304.60 5960.74 4301.93 5960.74 C 4299.28 5960.74 4296.79 5960.23 4294.46 5959.21 C 4292.13 5958.19 4290.09 5956.79 4288.35 5955.02 C 4286.60 5953.25 4285.22 5951.16 4284.21 5948.73 C 4283.21 5946.31 4282.70 5943.69 4282.70 5940.87 C 4282.70 5938.01 4283.21 5935.37 4284.21 5932.93 C 4285.22 5930.49 4286.60 5928.39 4288.35 5926.62 C 4290.09 5924.85 4292.13 5923.46 4294.46 5922.45 C 4296.79 5921.44 4299.28 5920.94 4301.93 5920.94 C 4304.60 5920.94 4307.11 5921.41 4309.44 5922.36 C 4311.77 5923.31 4313.80 5924.66 4315.54 5926.41 C 4317.27 5928.15 4318.64 5930.25 4319.65 5932.70 C 4320.66 5935.15 4321.16 5937.87 4321.16 5940.87 z M 4311.50 5940.87 C 4311.50 5939.33 4311.24 5937.93 4310.74 5936.67 C 4310.24 5935.42 4309.55 5934.34 4308.68 5933.44 C 4307.82 5932.54 4306.80 5931.84 4305.64 5931.36 C 4304.48 5930.88 4303.25 5930.64 4301.93 5930.64 C 4300.62 5930.64 4299.38 5930.88 4298.22 5931.36 C 4297.06 5931.84 4296.06 5932.54 4295.20 5933.44 C 4294.35 5934.34 4293.67 5935.42 4293.18 5936.67 C 4292.69 5937.93 4292.44 5939.33 4292.44 5940.87 C 4292.44 5942.33 4292.69 5943.67 4293.18 5944.92 C 4293.67 5946.16 4294.35 5947.24 4295.20 5948.15 C 4296.06 5949.07 4297.06 5949.79 4298.22 5950.31 C 4299.38 5950.84 4300.62 5951.10 4301.93 5951.10 C 4303.25 5951.10 4304.48 5950.86 4305.64 5950.37 C 4306.80 5949.87 4307.82 5949.18 4308.68 5948.29 C 4309.55 5947.40 4310.24 5946.32 4310.74 5945.06 C 4311.24 5943.79 4311.50 5942.40 4311.50 5940.87 z"></path>
+          <path transform="matrix(4.027863 0 0 4.027863 684.335304 239.007412) matrix(1 0 0 1 23.863537 0)  translate(-4344.92917, -5934.070855)" d="M 4364.16 5940.87 C 4364.16 5943.83 4363.66 5946.52 4362.65 5948.96 C 4361.64 5951.40 4360.27 5953.49 4358.53 5955.23 C 4356.80 5956.98 4354.77 5958.33 4352.44 5959.30 C 4350.10 5960.26 4347.60 5960.74 4344.93 5960.74 C 4342.28 5960.74 4339.79 5960.24 4337.46 5959.26 C 4335.13 5958.28 4333.09 5956.90 4331.34 5955.15 C 4329.60 5953.39 4328.22 5951.30 4327.21 5948.87 C 4326.20 5946.45 4325.70 5943.78 4325.70 5940.87 L 4325.70 5907.40 L 4335.33 5907.40 L 4335.33 5924.98 C 4335.85 5924.33 4336.47 5923.74 4337.21 5923.23 C 4337.95 5922.71 4338.75 5922.29 4339.60 5921.96 C 4340.46 5921.63 4341.34 5921.38 4342.26 5921.20 C 4343.17 5921.03 4344.06 5920.94 4344.93 5920.94 C 4347.60 5920.94 4350.10 5921.44 4352.44 5922.43 C 4354.77 5923.43 4356.80 5924.82 4358.53 5926.60 C 4360.27 5928.38 4361.64 5930.48 4362.65 5932.91 C 4363.66 5935.34 4364.16 5937.99 4364.16 5940.87 z M 4354.49 5940.87 C 4354.49 5939.42 4354.24 5938.07 4353.74 5936.81 C 4353.23 5935.56 4352.55 5934.48 4351.68 5933.56 C 4350.81 5932.65 4349.80 5931.93 4348.64 5931.42 C 4347.48 5930.90 4346.24 5930.64 4344.93 5930.64 C 4343.62 5930.64 4342.38 5930.93 4341.22 5931.50 C 4340.06 5932.08 4339.05 5932.84 4338.18 5933.79 C 4337.31 5934.74 4336.63 5935.83 4336.14 5937.06 C 4335.65 5938.29 4335.40 5939.56 4335.40 5940.87 C 4335.40 5942.33 4335.65 5943.67 4336.14 5944.92 C 4336.63 5946.16 4337.31 5947.24 4338.18 5948.15 C 4339.05 5949.07 4340.06 5949.79 4341.22 5950.31 C 4342.38 5950.84 4343.62 5951.10 4344.93 5951.10 C 4346.24 5951.10 4347.48 5950.84 4348.64 5950.31 C 4349.80 5949.79 4350.81 5949.07 4351.68 5948.15 C 4352.55 5947.24 4353.23 5946.16 4353.74 5944.92 C 4354.24 5943.67 4354.49 5942.33 4354.49 5940.87 z"></path>
+          <path transform="matrix(4.027863 0 0 4.027863 684.335304 239.007412) matrix(1 0 0 1 70.704298 6.76758)  translate(-4386.62448, -5940.838435)" d="M 4405.85 5940.87 C 4405.85 5943.69 4405.35 5946.31 4404.34 5948.73 C 4403.34 5951.16 4401.96 5953.25 4400.23 5955.02 C 4398.50 5956.79 4396.46 5958.19 4394.13 5959.21 C 4391.80 5960.23 4389.30 5960.74 4386.62 5960.74 C 4383.98 5960.74 4381.49 5960.23 4379.15 5959.21 C 4376.82 5958.19 4374.78 5956.79 4373.04 5955.02 C 4371.29 5953.25 4369.91 5951.16 4368.91 5948.73 C 4367.90 5946.31 4367.39 5943.69 4367.39 5940.87 C 4367.39 5938.01 4367.90 5935.37 4368.91 5932.93 C 4369.91 5930.49 4371.29 5928.39 4373.04 5926.62 C 4374.78 5924.85 4376.82 5923.46 4379.15 5922.45 C 4381.49 5921.44 4383.98 5920.94 4386.62 5920.94 C 4389.30 5920.94 4391.80 5921.41 4394.13 5922.36 C 4396.46 5923.31 4398.50 5924.66 4400.23 5926.41 C 4401.96 5928.15 4403.34 5930.25 4404.34 5932.70 C 4405.35 5935.15 4405.85 5937.87 4405.85 5940.87 z M 4396.19 5940.87 C 4396.19 5939.33 4395.94 5937.93 4395.43 5936.67 C 4394.93 5935.42 4394.24 5934.34 4393.37 5933.44 C 4392.51 5932.54 4391.49 5931.84 4390.33 5931.36 C 4389.17 5930.88 4387.94 5930.64 4386.62 5930.64 C 4385.31 5930.64 4384.08 5930.88 4382.92 5931.36 C 4381.76 5931.84 4380.75 5932.54 4379.89 5933.44 C 4379.04 5934.34 4378.36 5935.42 4377.87 5936.67 C 4377.38 5937.93 4377.13 5939.33 4377.13 5940.87 C 4377.13 5942.33 4377.38 5943.67 4377.87 5944.92 C 4378.36 5946.16 4379.04 5947.24 4379.89 5948.15 C 4380.75 5949.07 4381.76 5949.79 4382.92 5950.31 C 4384.08 5950.84 4385.31 5951.10 4386.62 5951.10 C 4387.94 5951.10 4389.17 5950.86 4390.33 5950.37 C 4391.49 5949.87 4392.51 5949.18 4393.37 5948.29 C 4394.24 5947.40 4394.93 5946.32 4395.43 5945.06 C 4395.94 5943.79 4396.19 5942.40 4396.19 5940.87 z"></path>
+          <path transform="matrix(3.79584 0 0 3.79584 1405.375334 239.007446) matrix(1 0 0 1 -62.985325 -0.18)  translate(-145.98184, -12717.017)" d="M 130.68 12745.13 C 129.82 12745.13 129.09 12744.84 128.49 12744.27 C 127.89 12743.69 127.59 12742.95 127.59 12742.04 L 127.59 12692.00 C 127.59 12691.13 127.89 12690.40 128.49 12689.80 C 129.09 12689.20 129.82 12688.90 130.68 12688.90 C 131.55 12688.90 132.28 12689.20 132.88 12689.80 C 133.48 12690.40 133.78 12691.13 133.78 12692.00 L 133.78 12739.16 L 161.28 12739.16 C 162.15 12739.16 162.88 12739.44 163.48 12740.02 C 164.08 12740.60 164.38 12741.29 164.38 12742.11 C 164.38 12742.97 164.08 12743.69 163.48 12744.27 C 162.88 12744.84 162.15 12745.13 161.28 12745.13 z"></path>
+          <path transform="matrix(3.79584 0 0 3.79584 1405.375334 239.007446) matrix(1 0 0 1 -25.591193 8.243996)  translate(-190.53322, -12725.441)" d="M 189.71 12745.49 C 186.06 12745.49 182.79 12744.62 179.91 12742.86 C 177.03 12741.11 174.75 12738.73 173.07 12735.70 C 171.39 12732.68 170.55 12729.27 170.55 12725.48 C 170.55 12721.64 171.43 12718.20 173.18 12715.18 C 174.93 12712.16 177.32 12709.77 180.35 12708.02 C 183.37 12706.26 186.78 12705.39 190.57 12705.39 C 194.31 12705.39 197.69 12706.26 200.69 12708.02 C 203.69 12709.77 206.06 12712.16 207.81 12715.18 C 209.57 12718.20 210.47 12721.64 210.51 12725.48 L 208.07 12726.70 C 208.07 12730.25 207.26 12733.44 205.65 12736.28 C 204.05 12739.11 201.86 12741.35 199.10 12743.01 C 196.34 12744.66 193.21 12745.49 189.71 12745.49 z M 190.57 12740.02 C 193.26 12740.02 195.65 12739.39 197.73 12738.11 C 199.82 12736.84 201.48 12735.10 202.70 12732.89 C 203.93 12730.69 204.54 12728.21 204.54 12725.48 C 204.54 12722.69 203.93 12720.21 202.70 12718.03 C 201.48 12715.84 199.82 12714.10 197.73 12712.81 C 195.65 12711.51 193.26 12710.86 190.57 12710.86 C 187.93 12710.86 185.54 12711.51 183.41 12712.81 C 181.27 12714.10 179.58 12715.84 178.33 12718.03 C 177.08 12720.21 176.46 12722.69 176.46 12725.48 C 176.46 12728.21 177.08 12730.69 178.33 12732.89 C 179.58 12735.10 181.27 12736.84 183.41 12738.11 C 185.54 12739.39 187.93 12740.02 190.57 12740.02 z M 207.42 12745.13 C 206.55 12745.13 205.82 12744.86 205.22 12744.31 C 204.62 12743.75 204.32 12743.02 204.32 12742.11 L 204.32 12730.23 L 205.69 12723.97 L 210.51 12725.48 L 210.51 12742.11 C 210.51 12743.02 210.23 12743.75 209.65 12744.31 C 209.07 12744.86 208.33 12745.13 207.42 12745.13 z"></path>
+          <path transform="matrix(3.79584 0 0 3.79584 1405.375334 239.007446) matrix(1 0 0 1 23.925193 0)  translate(-241.28491, -12717.197)" d="M 241.21 12745.49 C 237.47 12745.49 234.11 12744.62 231.13 12742.86 C 228.16 12741.11 225.79 12738.74 224.04 12735.74 C 222.29 12732.74 221.39 12729.36 221.34 12725.62 L 221.34 12692.00 C 221.34 12691.04 221.62 12690.28 222.17 12689.73 C 222.72 12689.18 223.48 12688.90 224.44 12688.90 C 225.35 12688.90 226.08 12689.18 226.63 12689.73 C 227.18 12690.28 227.46 12691.04 227.46 12692.00 L 227.46 12712.59 C 229.04 12710.43 231.11 12708.69 233.65 12707.37 C 236.20 12706.05 239.03 12705.39 242.15 12705.39 C 245.80 12705.39 249.06 12706.27 251.94 12708.02 C 254.82 12709.77 257.09 12712.16 258.74 12715.18 C 260.40 12718.21 261.23 12721.61 261.23 12725.41 C 261.23 12729.25 260.35 12732.68 258.60 12735.70 C 256.85 12738.73 254.47 12741.11 251.47 12742.87 C 248.47 12744.62 245.05 12745.49 241.21 12745.49 z M 241.21 12740.02 C 243.90 12740.02 246.31 12739.37 248.45 12738.08 C 250.58 12736.78 252.26 12735.04 253.49 12732.86 C 254.71 12730.67 255.32 12728.19 255.32 12725.41 C 255.32 12722.67 254.71 12720.20 253.49 12717.99 C 252.26 12715.78 250.58 12714.04 248.45 12712.77 C 246.31 12711.50 243.90 12710.86 241.21 12710.86 C 238.62 12710.86 236.26 12711.50 234.12 12712.77 C 231.98 12714.04 230.32 12715.78 229.12 12717.99 C 227.92 12720.20 227.32 12722.67 227.32 12725.41 C 227.32 12728.19 227.92 12730.67 229.12 12732.86 C 230.32 12735.04 231.98 12736.78 234.12 12738.08 C 236.26 12739.37 238.62 12740.02 241.21 12740.02 z"></path>
+          <path transform="matrix(3.79584 0 0 3.79584 1405.375334 239.007446) matrix(1 0 0 1 65.567039 8.243996)  translate(-285.718014, -12725.441)" d="M 286.05 12745.49 C 283.08 12745.49 280.18 12745.00 277.38 12744.02 C 274.57 12743.03 272.32 12741.63 270.64 12739.81 C 270.07 12739.18 269.83 12738.46 269.92 12737.65 C 270.02 12736.83 270.40 12736.16 271.08 12735.63 C 271.84 12735.05 272.62 12734.81 273.42 12734.91 C 274.21 12735.01 274.87 12735.34 275.40 12735.92 C 276.45 12737.17 277.92 12738.16 279.79 12738.91 C 281.66 12739.65 283.72 12740.02 285.98 12740.02 C 289.29 12740.02 291.73 12739.46 293.29 12738.33 C 294.85 12737.20 295.65 12735.80 295.70 12734.12 C 295.70 12732.49 294.92 12731.12 293.36 12730.01 C 291.80 12728.91 289.15 12728.05 285.40 12727.42 C 280.56 12726.61 277.02 12725.24 274.78 12723.32 C 272.55 12721.40 271.44 12719.09 271.44 12716.41 C 271.44 12713.96 272.11 12711.92 273.45 12710.29 C 274.80 12708.65 276.56 12707.43 278.74 12706.61 C 280.93 12705.80 283.29 12705.39 285.84 12705.39 C 289.05 12705.39 291.84 12705.93 294.19 12707.01 C 296.54 12708.09 298.44 12709.54 299.88 12711.37 C 300.40 12712.04 300.63 12712.75 300.56 12713.49 C 300.49 12714.23 300.09 12714.82 299.37 12715.25 C 298.75 12715.69 298.02 12715.83 297.18 12715.69 C 296.34 12715.54 295.63 12715.16 295.05 12714.53 C 293.85 12713.24 292.48 12712.29 290.95 12711.69 C 289.41 12711.09 287.66 12710.79 285.69 12710.79 C 283.20 12710.79 281.18 12711.28 279.64 12712.27 C 278.11 12713.25 277.34 12714.51 277.34 12716.05 C 277.34 12717.10 277.62 12718.01 278.17 12718.78 C 278.72 12719.55 279.70 12720.23 281.12 12720.83 C 282.54 12721.43 284.56 12721.97 287.20 12722.45 C 290.80 12723.08 293.65 12723.95 295.74 12725.08 C 297.82 12726.21 299.31 12727.52 300.20 12729.01 C 301.09 12730.49 301.53 12732.15 301.53 12733.97 C 301.53 12736.23 300.90 12738.21 299.62 12739.91 C 298.35 12741.62 296.56 12742.97 294.26 12743.98 C 291.96 12744.99 289.22 12745.49 286.05 12745.49 z"></path>
+        </g>
+      </svg>
+      <div class="titles">
+        <p class="eyebrow">Arisan Kantor</p>
+        <h1 class="title">Piala Dunia <span class="yr">2026</span></h1>
+      </div>
+    </div>
+    <div class="status">
+      <span class="pill"><span class="dot" id="liveDot"></span><span id="updated">memuat…</span></span>
+      <button class="refresh" id="refreshBtn" type="button">Refresh</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Bagian">
+  <div class="wrap" id="tabbar">
+    <button class="tab" role="tab" aria-selected="true"  data-target="matches">Pertandingan</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="standings">Klasemen</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="scorers">Top Skor</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="arisan">Arisan</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="stats">Statistik</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div id="boot" class="state">
+    <div class="spin"></div>
+    <h3>Memuat data Piala Dunia…</h3>
+    <p>Mengambil pertandingan, klasemen & top skor.</p>
+  </div>
+
+  <section data-tab="matches" hidden>
+    <div class="filters">
+      <div class="seg" id="statusSeg" role="group" aria-label="Saring status">
+        <button data-status="all" aria-pressed="true">Semua</button>
+        <button data-status="upcoming" aria-pressed="false">Akan Datang</button>
+        <button data-status="finished" aria-pressed="false">Selesai</button>
+      </div>
+      <select id="groupSel" aria-label="Saring grup"><option value="">Semua Grup</option></select>
+      <input class="search" id="searchInp" type="search" placeholder="Cari tim atau pemilik…" autocomplete="off">
+    </div>
+    <div id="matchList"></div>
+  </section>
+
+  <section data-tab="standings" hidden>
+    <div class="sec-head">
+      <h2 class="sec-title">Klasemen Grup</h2>
+      <span class="sec-note">tiebreaker FIFA diterapkan</span>
+    </div>
+    <div class="groups" id="groupsWrap"></div>
+    <div class="legend"><i></i> Lolos ke babak gugur</div>
+  </section>
+
+  <section data-tab="scorers" hidden>
+    <div class="sec-head">
+      <h2 class="sec-title">Top Skor — Golden Boot</h2>
+      <span class="sec-note" id="scorerNote"></span>
+    </div>
+    <div id="scorerList"></div>
+  </section>
+
+  <section data-tab="arisan" hidden>
+    <div class="sec-head">
+      <h2 class="sec-title">Papan Skor Arisan</h2>
+      <span class="sec-note">poin gabungan 2 tim tiap orang</span>
+    </div>
+    <div class="arisan" id="arisanList"></div>
+  </section>
+
+  <section data-tab="stats" hidden>
+    <div class="sec-head">
+      <h2 class="sec-title">Statistik Turnamen</h2>
+      <span class="sec-note" id="statNote"></span>
+    </div>
+    <div class="kpis" id="kpiWrap"></div>
+    <div class="statcols" id="statCols"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Waktu ditampilkan dalam <strong>WIB</strong> (Asia/Jakarta).</span>
+    <span class="mono" id="footMeta">Data: Zafronix World Cup API</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — paste your Apps Script Web App URL below.
+   In Apps Script:  Deploy ▸ New deployment ▸ Web app
+   Execute as: Me   |   Who has access: Anyone
+   Copy the URL ending in /exec and paste it here.
+   ============================================================ */
+const DATA_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE/exec";
+
+const TZ = "Asia/Jakarta";
+let DATA = null;
+const FILTER = { status: "all", group: "", q: "" };
+
+/* ---- Team name -> ISO code for flags (flagcdn.com) ---- */
+const ISO = {
+  "Mexico":"mx","South Africa":"za","Korea Republic":"kr","Czechia":"cz","Canada":"ca",
+  "Bosnia and Herzegovina":"ba","USA":"us","Paraguay":"py","Haiti":"ht","Scotland":"gb-sct",
+  "Australia":"au","Türkiye":"tr","Turkiye":"tr","Brazil":"br","Morocco":"ma","Qatar":"qa",
+  "Switzerland":"ch","Côte d'Ivoire":"ci","Cote d'Ivoire":"ci","Ecuador":"ec","Germany":"de",
+  "Curaçao":"cw","Curacao":"cw","Netherlands":"nl","Japan":"jp","Sweden":"se","Tunisia":"tn",
+  "Saudi Arabia":"sa","Uruguay":"uy","Spain":"es","Cabo Verde":"cv","IR Iran":"ir","Iran":"ir",
+  "New Zealand":"nz","Belgium":"be","Egypt":"eg","France":"fr","Senegal":"sn","Iraq":"iq",
+  "Norway":"no","Argentina":"ar","Algeria":"dz","Austria":"at","Jordan":"jo","Ghana":"gh",
+  "Panama":"pa","England":"gb-eng","Croatia":"hr","Portugal":"pt","Congo DR":"cd",
+  "DR Congo":"cd","Uzbekistan":"uz","Colombia":"co","Wales":"gb-wls"
+};
+
+const STAGE_ID = {
+  round_of_32:"Babak 32 Besar", round_of_16:"Babak 16 Besar", r32:"Babak 32 Besar", r16:"Babak 16 Besar",
+  quarter_final:"Perempat Final", qf:"Perempat Final", semi_final:"Semifinal", sf:"Semifinal",
+  third_place:"Perebutan Juara 3", thirdPlace:"Perebutan Juara 3", final:"Final"
+};
+
+/* ---- helpers ---- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const isFinished = m => m.homeScore!=null && m.awayScore!=null;
+
+function flag(team){
+  const code = ISO[team];
+  if(!code){
+    const ini = String(team||"?").replace(/[^A-Za-z]/g,"").slice(0,3).toUpperCase()||"?";
+    return `<span class="flag flag--none" aria-hidden="true">${ini}</span>`;
+  }
+  return `<img class="flag" loading="lazy" width="28" height="21" alt="" src="https://flagcdn.com/w80/${code}.png">`;
+}
+function stageLabel(m){
+  if(m.group) return "Grup "+m.group;
+  return STAGE_ID[m.stage] || (m.stage ? esc(m.stage) : "");
+}
+function ownerOf(team){ return (DATA && DATA.owners && DATA.owners[team]) || null; }
+function ownerTag(team){
+  const o = ownerOf(team);
+  return o ? `<span class="owner">${esc(o)}</span>` : `<span class="owner none"></span>`;
+}
+
+/* ---- WIB time formatting (browser timezone engine) ---- */
+const fmtKey   = new Intl.DateTimeFormat("en-CA",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit"});
+const fmtDay   = new Intl.DateTimeFormat("id-ID",{timeZone:TZ,weekday:"long",day:"numeric",month:"long"});
+const fmtTime  = new Intl.DateTimeFormat("en-GB",{timeZone:TZ,hour:"2-digit",minute:"2-digit",hour12:false});
+const fmtStamp = new Intl.DateTimeFormat("id-ID",{timeZone:TZ,day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:false});
+
+function dayLabelFromYMD(ymd){
+  const p = String(ymd).split("-").map(Number);
+  if(p.length<3||p.some(isNaN)) return "Jadwal menyusul";
+  return new Intl.DateTimeFormat("id-ID",{timeZone:"UTC",weekday:"long",day:"numeric",month:"long"})
+    .format(new Date(Date.UTC(p[0],p[1]-1,p[2])));
+}
+function enrich(m){
+  if(m.kickoffUtc){
+    const d = new Date(m.kickoffUtc);
+    if(!isNaN(d.getTime())){
+      m._key=fmtKey.format(d); m._day=fmtDay.format(d); m._time=fmtTime.format(d); m._ts=d.getTime();
+      return m;
+    }
+  }
+  m._key = m.wibDate || "TBD";
+  m._time = m.wibTime || "TBD";
+  m._day = m.wibDate ? dayLabelFromYMD(m.wibDate) : "Jadwal menyusul";
+  m._ts = m.wibDate ? Date.parse((m.wibDate)+"T"+(m.wibTime||"00:00")+":00+07:00") : 8.64e15;
+  if(isNaN(m._ts)) m._ts = 8.64e15;
+  return m;
+}
+
+/* ============================================================ RENDER ============================================================ */
+function render(){
+  renderMatches();
+  renderStandings();
+  renderScorers();
+  renderArisan();
+  renderStats();
+}
+
+/* ---- Matches ---- */
+function renderMatches(){
+  const list = $("#matchList");
+  let ms = DATA.matches.slice();
+  const q = FILTER.q.trim().toLowerCase();
+  ms = ms.filter(m=>{
+    if(FILTER.status==="finished" && !isFinished(m)) return false;
+    if(FILTER.status==="upcoming" && isFinished(m)) return false;
+    if(FILTER.group && m.group!==FILTER.group) return false;
+    if(q){
+      const hay = [m.home,m.away,ownerOf(m.home),ownerOf(m.away)].filter(Boolean).join(" ").toLowerCase();
+      if(hay.indexOf(q)===-1) return false;
+    }
+    return true;
+  });
+
+  if(!ms.length){ list.innerHTML = `<div class="empty">Tidak ada pertandingan yang cocok dengan filter.</div>`; return; }
+
+  // finished -> newest first; upcoming -> soonest first; mixed -> chronological
+  if(FILTER.status==="finished") ms.sort((a,b)=>b._ts-a._ts);
+  else ms.sort((a,b)=>a._ts-b._ts);
+
+  const groups = [];
+  const byKey = {};
+  ms.forEach(m=>{
+    if(!byKey[m._key]){ byKey[m._key]={key:m._key,day:m._day,items:[]}; groups.push(byKey[m._key]); }
+    byKey[m._key].items.push(m);
+  });
+
+  list.innerHTML = groups.map(g=>`
+    <div class="daygroup">
+      <div class="dayhead"><span>${esc(g.day)}</span><span class="rule"></span><span class="count">${g.items.length} laga</span></div>
+      ${g.items.map(matchCard).join("")}
+    </div>`).join("");
+}
+
+function matchCard(m){
+  const fin = isFinished(m);
+  const hWin = fin && m.homeScore>m.awayScore, aWin = fin && m.awayScore>m.homeScore;
+  const center = fin
+    ? `<div class="score">${m.homeScore}<span class="dash">–</span>${m.awayScore}</div><div class="meta ft">Selesai</div>`
+    : `<div class="ko">${esc(m._time)}<small>WIB</small></div><div class="meta">${esc(stageLabel(m))}</div>`;
+  const venue = (m.stadium||m.city)
+    ? `<div class="venue"><span>${esc([m.stadium,m.city].filter(Boolean).join(" · "))}</span><span>${fin?esc(stageLabel(m)):("#"+esc(m.id||""))}</span></div>`
+    : `<div class="venue"><span>${esc(stageLabel(m))}</span><span>#${esc(m.id||"")}</span></div>`;
+  return `<div class="match">
+    <div class="side home">
+      ${flag(m.home)}
+      <div class="team"><div class="name${hWin?" win":""}">${esc(m.home||"TBD")}</div>${ownerTag(m.home)}</div>
+    </div>
+    <div class="center">${center}</div>
+    <div class="side away">
+      ${flag(m.away)}
+      <div class="team"><div class="name${aWin?" win":""}">${esc(m.away||"TBD")}</div>${ownerTag(m.away)}</div>
+    </div>
+    ${venue}
+  </div>`;
+}
+
+/* ---- Standings ---- */
+function renderStandings(){
+  const wrap = $("#groupsWrap");
+  const st = DATA.standings || {};
+  const keys = Object.keys(st).sort();
+  if(!keys.length){ wrap.innerHTML = `<div class="empty">Klasemen belum tersedia.</div>`; return; }
+  wrap.innerHTML = keys.map(g=>{
+    const rows = (st[g]||[]).slice().sort((a,b)=>(a.position||99)-(b.position||99));
+    return `<div class="grouptable">
+      <h3>Grup ${esc(g)}</h3>
+      <table>
+        <thead><tr>
+          <th class="tname">Tim</th><th>M</th><th>M</th><th>S</th><th>K</th><th>SG</th><th>Poin</th>
+        </tr></thead>
+        <tbody>${rows.map(r=>{
+          const ow = ownerOf(r.team);
+          return `<tr class="${r.advanced?"adv":""}">
+            <td class="tname"><div class="trow-team">
+              <span class="pos">${r.position||""}</span>${flag(r.team)}
+              <span style="min-width:0"><span class="nm">${esc(r.team)}</span>${ow?`<span class="ow">${esc(ow)}</span>`:""}</span>
+            </div></td>
+            <td>${r.played??0}</td><td>${r.won??0}</td><td>${r.drawn??0}</td><td>${r.lost??0}</td>
+            <td>${(r.goalDifference>0?"+":"")+(r.goalDifference??0)}</td>
+            <td class="pts">${r.points??0}</td>
+          </tr>`;
+        }).join("")}</tbody>
+      </table>
+    </div>`;
+  }).join("");
+}
+
+/* ---- Top scorers ---- */
+function renderScorers(){
+  const list = $("#scorerList");
+  const sc = (DATA.scorers||[]).filter(s=>s.goals>0);
+  if(!sc.length){
+    $("#scorerNote").textContent = "";
+    list.innerHTML = `<div class="empty">Data pencetak gol belum tersedia di feed turnamen. Akan otomatis muncul begitu detail gol mulai masuk.</div>`;
+    return;
+  }
+  const max = sc[0].goals || 1;
+  $("#scorerNote").textContent = sc.length+" pemain";
+  list.innerHTML = sc.slice(0,25).map((s,i)=>`
+    <div class="scorer ${i<3?("top"+(i+1)):""}">
+      <div class="rk">${i+1}</div>
+      <div class="who"><div class="pl">${esc(s.player)}</div>
+        <div class="tm">${flag(s.team)}<span>${esc(s.team||"")}</span></div></div>
+      <div class="goals"><span class="bar"><i style="width:${Math.round(s.goals/max*100)}%"></i></span><span class="gnum">${s.goals}</span></div>
+    </div>`).join("");
+}
+
+/* ---- Arisan owner leaderboard ---- */
+function renderArisan(){
+  const wrap = $("#arisanList");
+  const owners = DATA.owners || {};
+  if(!Object.keys(owners).length){
+    wrap.innerHTML = `<div class="empty">Data kepemilikan arisan belum terbaca dari sheet Database.</div>`;
+    return;
+  }
+  // team -> standings row
+  const teamRow = {};
+  Object.keys(DATA.standings||{}).forEach(g=>(DATA.standings[g]||[]).forEach(r=>{ teamRow[r.team]=r; }));
+  // owner -> [teams]
+  const byOwner = {};
+  Object.keys(owners).forEach(team=>{ const o=owners[team]; (byOwner[o]=byOwner[o]||[]).push(team); });
+
+  let rows = Object.keys(byOwner).map(owner=>{
+    const teams = byOwner[owner];
+    let pts=0,gf=0,ga=0,won=0,drawn=0,lost=0,alive=0,data=false;
+    const detail = teams.map(t=>{
+      const r = teamRow[t];
+      if(r){ data=true; pts+=r.points||0; gf+=r.goalsFor||0; ga+=r.goalsAgainst||0;
+        won+=r.won||0; drawn+=r.drawn||0; lost+=r.lost||0; if(r.advanced) alive++; }
+      return { team:t, advanced: r? !!r.advanced : true };
+    });
+    return { owner, teams:detail, pts, gf, ga, gd:gf-ga, won, drawn, lost, alive, data };
+  }).sort((a,b)=> b.pts-a.pts || b.gd-a.gd || b.gf-a.gf || a.owner.localeCompare(b.owner));
+
+  wrap.innerHTML = rows.map((r,i)=>{
+    const cls = i===0 ? "lead" : (i<3 ? "podium" : "");
+    return `<div class="acard ${cls}">
+      <div class="rank">${i+1}</div>
+      <div class="aowner">
+        <div class="onm">${esc(r.owner)}</div>
+        <div class="ateams">${r.teams.map(t=>`<span class="ateam ${t.advanced?"":"out"}">${flag(t.team)}<span>${esc(t.team)}</span></span>`).join("")}</div>
+      </div>
+      <div class="astat">
+        <div class="blk alivecol"><span class="v">${r.alive}/${r.teams.length}</span><span class="k">Hidup</span></div>
+        <div class="blk"><span class="v">${(r.gd>0?"+":"")+r.gd}</span><span class="k">SG</span></div>
+        <div class="blk"><span class="v pts">${r.pts}</span><span class="k">Poin</span></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* ---- Stats ---- */
+function renderStats(){
+  const fin = DATA.matches.filter(isFinished);
+  const totalGoals = fin.reduce((s,m)=>s+m.homeScore+m.awayScore,0);
+  const avg = fin.length ? (totalGoals/fin.length) : 0;
+
+  // goals per team (finished only)
+  const teamGoals = {}, teamConceded = {}, teamCS = {};
+  fin.forEach(m=>{
+    teamGoals[m.home]=(teamGoals[m.home]||0)+m.homeScore;
+    teamGoals[m.away]=(teamGoals[m.away]||0)+m.awayScore;
+    teamConceded[m.home]=(teamConceded[m.home]||0)+m.awayScore;
+    teamConceded[m.away]=(teamConceded[m.away]||0)+m.homeScore;
+    if(m.awayScore===0) teamCS[m.home]=(teamCS[m.home]||0)+1;
+    if(m.homeScore===0) teamCS[m.away]=(teamCS[m.away]||0)+1;
+  });
+  const topScoringTeams = Object.keys(teamGoals).map(t=>({t,g:teamGoals[t]})).sort((a,b)=>b.g-a.g).slice(0,5);
+  const cleanSheets = Object.keys(teamCS).map(t=>({t,g:teamCS[t]})).sort((a,b)=>b.g-a.g).slice(0,5);
+
+  let biggest=null, highest=null;
+  fin.forEach(m=>{
+    const margin=Math.abs(m.homeScore-m.awayScore), tot=m.homeScore+m.awayScore;
+    if(!biggest||margin>biggest.margin) biggest={m,margin};
+    if(!highest||tot>highest.tot) highest={m,tot};
+  });
+
+  $("#statNote").textContent = fin.length+" laga selesai";
+  $("#kpiWrap").innerHTML = `
+    ${kpi(fin.length,"Laga Selesai")}
+    ${kpi(totalGoals,"Total Gol",true)}
+    ${kpi(avg.toFixed(2),"Gol / Laga")}
+    ${kpi(Object.keys(DATA.standings||{}).length||"—","Grup")}`;
+
+  const bigBlock = biggest ? `<div class="bigmatch">
+      ${esc(biggest.m.home)} <span class="sc">${biggest.m.homeScore}–${biggest.m.awayScore}</span> ${esc(biggest.m.away)}
+      <div class="sub">selisih ${biggest.margin} gol${biggest.m._day?` · ${esc(biggest.m._day)}`:""}</div></div>` : "—";
+  const highBlock = highest ? `<div class="bigmatch">
+      ${esc(highest.m.home)} <span class="sc">${highest.m.homeScore}–${highest.m.awayScore}</span> ${esc(highest.m.away)}
+      <div class="sub">${highest.tot} gol dalam satu laga</div></div>` : "—";
+
+  $("#statCols").innerHTML = `
+    <div class="statbox"><h4>Tim Paling Subur</h4>
+      ${topScoringTeams.length?topScoringTeams.map(x=>srow(x.t,x.g+" gol")).join(""):`<div class="empty">Belum ada data.</div>`}</div>
+    <div class="statbox"><h4>Clean Sheet Terbanyak</h4>
+      ${cleanSheets.length?cleanSheets.map(x=>srow(x.t,x.g+"×")).join(""):`<div class="empty">Belum ada.</div>`}</div>
+    <div class="statbox"><h4>Kemenangan Terbesar</h4>${bigBlock}</div>
+    <div class="statbox"><h4>Laga Paling Banyak Gol</h4>${highBlock}</div>`;
+}
+function kpi(v,k,green){ return `<div class="kpi"><div class="v${green?" g":""}">${v}</div><div class="k">${k}</div></div>`; }
+function srow(team,val){ return `<div class="srow">${flag(team)}<span class="nm">${esc(team)}</span><span class="val">${esc(val)}</span></div>`; }
+
+/* ---- group filter options ---- */
+function fillGroups(){
+  const sel = $("#groupSel");
+  const gs = new Set();
+  DATA.matches.forEach(m=>{ if(m.group) gs.add(m.group); });
+  Object.keys(DATA.standings||{}).forEach(g=>gs.add(g));
+  [...gs].sort().forEach(g=>{ const o=document.createElement("option"); o.value=g; o.textContent="Grup "+g; sel.appendChild(o); });
+}
+
+/* ============================================================ LOAD ============================================================ */
+async function load(silent){
+  const btn = $("#refreshBtn");
+  if(!silent){ btn.disabled=true; btn.textContent="Memuat…"; }
+  try{
+    if(!DATA_URL || DATA_URL.indexOf("PASTE_YOUR")===0){
+      throw new Error("DATA_URL belum diisi. Buka file ini dan tempel URL Web App Apps Script (diakhiri /exec) ke konstanta DATA_URL.");
+    }
+    const res = await fetch(DATA_URL, {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const json = await res.json();
+    if(json.error) throw new Error(json.error);
+
+    json.matches = (json.matches||[]).map(enrich);
+    DATA = json;
+
+    $("#boot").hidden = true;
+    document.querySelectorAll('section[data-tab]').forEach(s=>{ if(s.dataset.tab===currentTab) s.hidden=false; });
+    if(!$("#groupSel").dataset.filled){ fillGroups(); $("#groupSel").dataset.filled="1"; }
+
+    render();
+
+    const upd = json.updatedAt ? fmtStamp.format(new Date(json.updatedAt)) : "";
+    $("#updated").textContent = "Update "+upd+" WIB";
+    const anyLive = false; // live endpoint is Pro-only; keep dot steady
+    $("#liveDot").classList.toggle("live", anyLive);
+    $("#footMeta").textContent = "Data: Zafronix World Cup API · "+(json.matches.length)+" laga";
+  }catch(err){
+    if(!DATA){
+      $("#boot").hidden=false;
+      $("#boot").innerHTML = `<h3>Gagal memuat data</h3>
+        <p>${esc(err.message)}</p>
+        <p style="margin-top:14px">Pastikan <code>DATA_URL</code> berisi URL Web App Apps Script kamu, dan deployment-nya
+        diatur <code>Who has access: Anyone</code>. Lalu klik Refresh.</p>`;
+    }
+  }finally{
+    btn.disabled=false; btn.textContent="Refresh";
+  }
+}
+
+/* ---- tabs ---- */
+let currentTab = "matches";
+$("#tabbar").addEventListener("click", e=>{
+  const t = e.target.closest(".tab"); if(!t) return;
+  currentTab = t.dataset.target;
+  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected", x===t ? "true":"false"));
+  document.querySelectorAll('section[data-tab]').forEach(s=> s.hidden = (s.dataset.tab!==currentTab) || !DATA );
+});
+
+/* ---- filters ---- */
+$("#statusSeg").addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  FILTER.status=b.dataset.status;
+  [...e.currentTarget.children].forEach(x=>x.setAttribute("aria-pressed", x===b?"true":"false"));
+  renderMatches();
+});
+$("#groupSel").addEventListener("change", e=>{ FILTER.group=e.target.value; renderMatches(); });
+let qt; $("#searchInp").addEventListener("input", e=>{ clearTimeout(qt); qt=setTimeout(()=>{ FILTER.q=e.target.value; renderMatches(); },120); });
+$("#refreshBtn").addEventListener("click", ()=>load(false));
+
+/* ---- gentle auto-refresh while the tab is visible ---- */
+setInterval(()=>{ if(!document.hidden && DATA) load(true); }, 180000);
+
+load(false);
+</script>
+</body>
+</html>
